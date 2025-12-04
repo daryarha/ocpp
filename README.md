@@ -30,14 +30,14 @@
     docker exec -it ocpp_db psql -U ocpp -d ocpp
     
 ## Architecture
-Business Flow:
-Client (charging point)
-→ WebSocket Server (schema validation & error handling)
-→ Router (route based on CALL action at index 2)
-→ Handler (parse request data)
-→ Service (apply business logic)
-→ Repository (fetch/store data)
-→ Database
+Business Flow:  
+Client (charging point)  
+→ WebSocket Server (schema validation & error handling)  
+→ Router (route based on CALL action at index 2)  
+→ Handler (parse request data)  
+→ Service (apply business logic)  
+→ Repository (fetch/store data)  
+→ Database  
 
 | Folder | Responsibility |
 |--------|----------------|
