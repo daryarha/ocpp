@@ -1,0 +1,38 @@
+services:
+  db:
+    image: timescale/timescaledb:latest-pg17
+    container_name: ocpp_db
+    restart: always
+    environment:
+      POSTGRES_USER: ocpp
+      POSTGRES_PASSWORD: ocpp
+      POSTGRES_DB: ocpp
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ./docker/init:/docker-entrypoint-initdb.d
+
+  ocpp_server:
+    build: .
+    container_name: ocpp_server
+    restart: always
+    depends_on:
+      - db
+    working_dir: /app
+    environment:
+      DB_HOST: db
+      DB_PORT: 5432
+      DB_USER: ocpp
+      DB_PASSWORD: ocpp
+      DB_NAME: ocpp
+      PORT: 3000
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./:/app          # Mount your local source code
+      - /app/node_modules # Avoid overwriting node_modules
+    command: npm run dev         # Run ts-node-dev for hot reload
+
+volumes:
+  pgdata:
